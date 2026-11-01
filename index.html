@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>粒子运动 · p5.js</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+        position: relative;
+        overflow: hidden;
+        background: #0a0d12;
+        font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #8b98a9;
+    }
+    h1 {
+        position: absolute;
+        top: 40px; left: 0; right: 0;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: .42em;
+        text-indent: .42em;
+        color: #cfd8e3;
+    }
+    /* p5 会把 canvas 包进 <main> 再挂到 body 上，用绝对定位居中 */
+    body > main { position: static; line-height: 0; }
+    canvas.p5Canvas {
+        position: absolute !important;
+        left: 50%; top: 50%;
+        transform: translate(-50%, -50%);
+        display: block;
+        border-radius: 3px;
+        box-shadow: 0 0 0 1px rgba(255,255,255,.07), 0 26px 70px rgba(0,0,0,.75);
+    }
+    .tips {
+        position: absolute;
+        bottom: 34px; left: 0; right: 0;
+        display: flex;
+        gap: 22px;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 12px;
+        letter-spacing: .04em;
+        text-align: center;
+        padding: 0 20px;
+    }
+    .tips b { color: #d8b4fe; font-weight: 500; }
+    @media (max-height: 700px) {
+        h1 { top: 20px; }
+        .tips { bottom: 16px; gap: 14px; }
+    }
+</style>
+</head>
+<body>
+    <h1>粒子运动</h1>
+    <div class="tips">
+        <span><b>← →</b> 横向移动：控制速度</span>
+        <span><b>↑ ↓</b> 纵向移动：控制大小</span>
+        <span><b>点击</b>：重新生成粒子</span>
+    </div>
+
+    <script src="./p5.min.js"></script>
+    <script src="./王子轩源文件1.js"></script>
+    <script>
+        // canvas 由 p5 动态创建，小屏时等比缩放保证完整可见
+        (function fit(tries) {
+            const cv = document.querySelector('canvas.p5Canvas');
+            if (cv) {
+                const scale = Math.min(1, (innerHeight - 190) / 570, (innerWidth - 48) / 380);
+                cv.style.width = Math.round(380 * scale) + 'px';
+                cv.style.height = Math.round(570 * scale) + 'px';
+                return;
+            }
+            if (tries > 0) setTimeout(function () { fit(tries - 1); }, 100);
+        })(30);
+    </script>
+</body>
+</html>
